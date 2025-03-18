@@ -1,21 +1,34 @@
-FROM python:3
+# Use the official Python 3 image as the base image
+FROM python:3  
 
-RUN mkdir -p /home/amf_noop
-WORKDIR /home/amf_noop
+# Create and set the working directory inside the container
+RUN mkdir -p /home/amf_noop  
+WORKDIR /home/amf_noop  
 
-RUN pip install --upgrade pip
+# Upgrade pip to the latest version
+RUN pip install --upgrade pip  
 
-ADD requirements.txt .
-RUN pip install -r requirements.txt
-RUN pip install gunicorn
+# Add and install dependencies from requirements.txt
+ADD requirements.txt .  
+RUN pip install -r requirements.txt  
 
-ADD app app
-ADD boot.sh ./
-RUN chmod +x boot.sh
+# Install Gunicorn, a WSGI HTTP server for running Python applications
+RUN pip install gunicorn  
 
+# Copy application files into the container
+ADD app app  
+# Copy the README.md file into the container
+ADD README.md /home/amf_noop/README.md
 
-ENV FLASK_APP app
+# Add boot script and ensure it has execution permissions
+ADD boot.sh ./  
+RUN chmod +x boot.sh  
 
+# Set the Flask application environment variable
+ENV FLASK_APP app  
 
-EXPOSE 5000
-ENTRYPOINT ["./boot.sh"]
+# Expose port 5000 for the application
+EXPOSE 5000  
+
+# Define the startup command
+ENTRYPOINT ["./boot.sh"]  

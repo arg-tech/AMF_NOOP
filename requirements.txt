@@ -1,2 +1,5 @@
-Flask==2.0.3
-requests==2.23.0
+Flask
+requests
+markdown2
+pandas
+xaif==0.3.2
